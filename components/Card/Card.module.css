@@ -1,0 +1,58 @@
+/* Estilo general de la carta */
+.card {
+    background: #fff;
+    border: 1px solid #e5e5e5;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+    max-width: 300px;
+  }
+  
+  /* Imagen del producto */
+  .cardImage {
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+    display: block;
+  }
+  
+  /* Contenedor del contenido */
+  .cardContent {
+    padding: 15px;
+    text-align: left;
+  }
+  
+  /* Título del producto */
+  .cardTitle {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #111;
+    margin: 0 0 10px 0;
+  }
+  
+  /* Precio del producto */
+  .cardPrice {
+    font-size: 1rem;
+    color: #757575;
+    font-weight: 600;
+  }
+  
+  /* Efecto hover */
+  .card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.15);
+  }
+  
+  /* Responsivo */
+  @media (max-width: 768px) {
+    .card {
+      max-width: 100%;
+    }
+  
+    .cardImage {
+      height: 200px;
+    }
+  }
+  
