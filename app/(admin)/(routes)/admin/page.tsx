@@ -1,13 +1,13 @@
 'use client'
-import React, { useEffect, useState } from 'react'
-import styles from './Admin.module.css'
-import CategoryForm from '@/components/CategoryForm/CategoryForm'
-import ProductForm from '@/components/ProductForm/ProductForm'
-import ProductList from '@/components/ProductList/ProductList'
-import CategoryList from '@/components/CategoryList/CategoryList'
-import BrandForm from '@/components/BrandForm/BrandForm'
-import BrandList from '@/components/BrandList/BrandList'
-import { clientAxios } from '@/config/clientAxios'
+import { clientAxios } from "@/config/clientAxios"
+import { useEffect, useState } from "react"
+import styles from "./Admin.module.css"
+import ProductForm from "@/components/ProductForm/ProductForm"
+import ProductList from "@/components/ProductList/ProductList"
+import CategoryForm from "@/components/CategoryForm/CategoryForm"
+import CategoryList from "@/components/CategoryList/CategoryList"
+import BrandForm from "@/components/BrandForm/BrandForm"
+import BrandList from "@/components/BrandList/BrandList"
 const AdminPage = () => {
   const [activeTab, setActiveTab] = useState('products')
 
@@ -33,19 +33,25 @@ const AdminPage = () => {
     }
   }
 
-
+  const fetchProducts = async () => {
+    try {
+      const fetchedProducts = await clientAxios.get('/products')
+      setProducts(fetchedProducts.data.products)
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
   useEffect(() => {
-    fetchBrands();
-    fetchCategories();
-  
+    fetchBrands()
+    fetchCategories()
+    fetchProducts()
   }, [])
 
   return (
     <div className={styles.adminPage}>
       <h1 className={styles.title}>Panel de Administración</h1>
 
-      {/* Navegación entre productos y categorías */}
       <div className={styles.nav}>
         <button onClick={() => setActiveTab('products')}>Productos</button>
         <button onClick={() => setActiveTab('categories')}>Categorías</button>
@@ -56,22 +62,29 @@ const AdminPage = () => {
         {activeTab === 'products' ? (
           <>
             <h2 className={styles.subtitle}>Administrar Productos</h2>
-            <ProductForm brands={brands} categories={categories} />
-            <ProductList />
+            <ProductForm 
+              brands={brands} 
+              categories={categories} 
+              onProductCreated={fetchProducts} // 👈 Actualiza la lista
+            />
+            <ProductList 
+              products={products} 
+              onDeleteProduct={fetchProducts} // 👈 Actualiza al eliminar
+            />
           </>
         ) : activeTab === 'categories' ? (
           <>
-            <h2>Administrar Categorías</h2>
+            <h2 className={styles.subtitle}>Administrar Categorías</h2>
             <CategoryForm />
             <CategoryList categories={categories} />
           </>
         ) : (
           <>
-            <h2>Administrar Marcas</h2>
+            <h2 className={styles.subtitle}>Administrar Marcas</h2>
             <BrandForm />
-            <BrandList brand={brands} /></>
-        )
-        }
+            <BrandList brand={brands} />
+          </>
+        )}
       </div>
     </div>
   )

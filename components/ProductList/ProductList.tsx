@@ -2,41 +2,32 @@ import { clientAxios } from '@/config/clientAxios'
 import React, { useEffect, useState } from 'react'
 import styles from './ProductList.module.css'
 import Card from '../Card/Card'
-const ProductList = () => {
-  const [products, setProducts] = useState([])
+import { CircleX } from 'lucide-react'
+const ProductList = ({ products, onDeleteProduct }: { products: any[]; onDeleteProduct: () => void }) => {
 
-    const fetchProducts = async () => {
-      try {
-        const fetchedProducts = await clientAxios.get('/products')
-        setProducts(fetchedProducts.data.products)
-      } catch (error) {
-        console.log(error)
-      }
-    }
-
-    useEffect(() => {
-      fetchProducts();
-    },[])
-
-  const handleDelete = async (id: string) => {
+   const handleDelete = async (id: string) => {
     try {
-      const res = await fetch(`/api/products/${id}`, { method: 'DELETE' })
-      if (res.ok) {
-        setProducts(products.filter((product: any) => product._id !== id))
-        alert('Producto eliminado')
-      }
+      await clientAxios.delete(`/products/${id}`)
+      alert('Producto eliminado')
+      onDeleteProduct() // 👈 Actualizar la lista
     } catch (error) {
       console.error('Error al eliminar producto:', error)
     }
+
   }
   return (
     <div>
       <h3>Lista de Productos</h3>
-      <ul>
+      <ul className={styles.list}>
         {products?.map((product: any) => {
           console.log(product)
           return <div key={product._id}>
-            <Card image={product.images[0]}  />
+            <>
+              <div className={styles.listCard}>
+              <CircleX className={styles.deleteButton} onClick={() => handleDelete(product._id)} />
+              <Card image={product.images[0]} price={product.price} title={product.name} />
+              </div>
+            </>
           </div>
         })}
       </ul>

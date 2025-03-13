@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-
+import styles from './CategoryForm.module.css'
 const CategoryForm = () => {
   const [category, setCategory] = useState({ name: '' })
 
@@ -22,9 +22,14 @@ const CategoryForm = () => {
   }
 
   return (
-    <form onSubmit={handleSubmit}>
-      <input name="name" placeholder="Nombre de la categoría" onChange={handleChange} />
-      <button type="submit">Crear Categoría</button>
+    <form className={styles.form} onSubmit={handleSubmit}>
+      <h2 className={styles.title}>Crear categoria</h2>
+
+      <div className={styles.inputBox}>
+        <input name="name" placeholder="Nombre de la categoría" onChange={handleChange} />
+
+      </div>
+      <button className={styles.submitButton} type="submit">Crear Categoría</button>
     </form>
   )
 }

@@ -93,3 +93,30 @@
     background: #218838;
   }
   
+
+  .sizesBox {
+    margin: 20px 0;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background: #f9f9f9;
+  }
+
+  .sizesContainer {
+    margin-top: 20px;
+    display: flex;
+    gap: 20px;
+    justify-content: space-evenly;
+  }
+  
+  .sizeLabel {
+    display: inline-flex;
+    align-items: center;
+    margin-right: 10px;
+    font-size: 1rem;
+  }
+  
+  .sizeLabel input {
+    margin-right: 5px;
+    transform: scale(1.2);
+  }

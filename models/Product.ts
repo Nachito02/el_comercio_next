@@ -1,4 +1,3 @@
-// models/Product.ts
 import mongoose from 'mongoose'
 
 const productSchema = new mongoose.Schema({
@@ -8,12 +7,12 @@ const productSchema = new mongoose.Schema({
     category: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Category',
-        required: true
+        required: true,
     },
     brand: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Brand',
-        required: true
+        required: true,
     },
     sizes: { type: [String], default: [] }, 
     colors: { type: [String], default: [] }, 

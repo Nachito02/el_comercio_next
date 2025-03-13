@@ -1,57 +1,119 @@
-'use client';
-import React, { useState } from 'react';
-import { ICategory, IBrand } from '@/interfaces';
-import { CldUploadWidget } from 'next-cloudinary';
-import { clientAxios } from '@/config/clientAxios';
-import styles from './ProductForm.module.css';
+import { ICategory, IBrand } from "@/interfaces"
+import { useState } from "react"
+import { clientAxios } from "@/config/clientAxios"
+import styles from "./ProductForm.module.css"
+import { CldUploadWidget } from "next-cloudinary"
 
-const ProductForm = ({ categories, brands }: { categories: ICategory[]; brands: IBrand[] }) => {
+const SIZES = ['XS', 'S', 'M', 'L', 'XL', 'XXL'] // Tallas disponibles
+
+const ProductForm = ({
+  categories,
+  brands,
+  onProductCreated,
+}: {
+  categories: ICategory[]
+  brands: IBrand[]
+  onProductCreated: () => void
+}) => {
   const [product, setProduct] = useState({
     name: '',
     description: '',
-    price: 0,
-    stock: 0,
+    price: "",
+    stock: "",
     category: '',
     brand: '',
+    sizes: [] as string[], // Inicializa tallas como array vacío
     images: [] as string[],
-  });
+  })
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-    setProduct({ ...product, [e.target.name]: e.target.value });
-  };
+    setProduct({ ...product, [e.target.name]: e.target.value })
+  }
+
+  const handleSizeChange = (size: string) => {
+    setProduct((prev) => ({
+      ...prev,
+      sizes: prev.sizes.includes(size)
+        ? prev.sizes.filter((s) => s !== size) // Quitar talla si ya está seleccionada
+        : [...prev.sizes, size], // Agregar talla si no está seleccionada
+    }))
+  }
 
   const handleUploadSuccess = (result: any) => {
     if (result.event === 'success') {
-      setProduct((prev) => ({ ...prev, images: [...prev.images, result.info.secure_url] }));
+      setProduct((prev) => ({
+        ...prev,
+        images: [...prev.images, result.info.secure_url],
+      }))
     }
-  };
+  }
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+    e.preventDefault()
+
     try {
-      await clientAxios.post('/products', product);
-      alert('Producto creado con éxito');
+      await clientAxios.post('/products', product)
+      alert('Producto creado con éxito')
+
+      // Limpiar formulario
+      setProduct({
+        name: '',
+        description: '',
+        price: "",
+        stock: "",
+        category: '',
+        brand: '',
+        sizes: [],
+        images: [],
+      })
+
+      // Actualizar la lista de productos
+      onProductCreated()
     } catch (error) {
-      console.error('Error al crear producto:', error);
+      console.error('Error al crear producto:', error)
     }
-  };
+  }
 
   return (
     <form className={styles.form} onSubmit={handleSubmit}>
       <h2 className={styles.title}>Crear Producto</h2>
 
       <div className={styles.inputBox}>
-        <input type='text' name="name" placeholder="Nombre del producto" onChange={handleChange} />
-        <input type='text' name="description" placeholder="Descripción" onChange={handleChange} />
+        <input
+          type="text"
+          name="name"
+          placeholder="Nombre del producto"
+          value={product.name}
+          onChange={handleChange}
+        />
+        <input
+          type="text"
+          name="description"
+          placeholder="Descripción"
+          value={product.description}
+          onChange={handleChange}
+        />
       </div>
 
       <div className={styles.inputBox}>
-        <input type="number" name="price" placeholder="Precio" onChange={handleChange} />
-        <input type="number" name="stock" placeholder="Stock" onChange={handleChange} />
+        <input
+          type="number"
+          name="price"
+          placeholder="Precio"
+          value={product.price}
+          onChange={handleChange}
+        />
+        <input
+          type="number"
+          name="stock"
+          placeholder="Stock"
+          value={product.stock}
+          onChange={handleChange}
+        />
       </div>
 
       <div className={styles.selectBox}>
-        <select name="category" onChange={handleChange}>
+        <select name="category" value={product.category} onChange={handleChange}>
           <option value="">Selecciona una categoría</option>
           {categories.map((category) => (
             <option key={category._id} value={category._id}>
@@ -60,7 +122,7 @@ const ProductForm = ({ categories, brands }: { categories: ICategory[]; brands: 
           ))}
         </select>
 
-        <select name="brand" onChange={handleChange}>
+        <select name="brand" value={product.brand} onChange={handleChange}>
           <option value="">Selecciona una marca</option>
           {brands.map((brand) => (
             <option key={brand._id} value={brand._id}>
@@ -70,7 +132,28 @@ const ProductForm = ({ categories, brands }: { categories: ICategory[]; brands: 
         </select>
       </div>
 
-      <CldUploadWidget uploadPreset='qqeo7owm' onSuccess={handleUploadSuccess}>
+
+      <div className={styles.sizesBox}>
+        <h3>Tallas disponibles:</h3>
+        <div className={styles.sizesContainer}>
+
+
+          {SIZES.map((size) => (
+            <label key={size} className={styles.sizeLabel}>
+              <input
+                type="checkbox"
+                value={size}
+                checked={product.sizes.includes(size)}
+                onChange={() => handleSizeChange(size)}
+              />
+              {size}
+            </label>
+
+          ))}
+        </div>
+      </div>
+
+      <CldUploadWidget uploadPreset="qqeo7owm" onSuccess={handleUploadSuccess}>
         {({ open }) => (
           <button type="button" className={styles.uploadButton} onClick={() => open()}>
             Subir imágenes
@@ -88,7 +171,7 @@ const ProductForm = ({ categories, brands }: { categories: ICategory[]; brands: 
         Crear Producto
       </button>
     </form>
-  );
-};
+  )
+}
 
-export default ProductForm;
+export default ProductForm
