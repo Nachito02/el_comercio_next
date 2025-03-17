@@ -81,8 +81,8 @@ const AdminPage = () => {
         ) : (
           <>
             <h2 className={styles.subtitle}>Administrar Marcas</h2>
-            <BrandForm />
-            <BrandList brand={brands} />
+            <BrandForm onBrandCreated={fetchBrands} />
+            <BrandList brand={brands} onBrandCreated={fetchBrands} />
           </>
         )}
       </div>

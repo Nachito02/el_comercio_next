@@ -1,17 +1,17 @@
+import { clientAxios } from '@/config/clientAxios'
 import { IBrand } from '@/interfaces'
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 
-const CategoryList = ({brand} : {brand: IBrand[]}) => {
+const CategoryList = ({ brand, onBrandCreated }: { brand: IBrand[], onBrandCreated: () => void }) => {
     const [brands, setBrands] = useState([brand])
-
 
     const handleDelete = async (id: string) => {
         try {
-            const res = await fetch(`/api/brand/${id}`, { method: 'DELETE' })
-            if (res.ok) {
-                setBrands(brands.filter((cat: any) => cat._id !== id))
-                alert('Categoría eliminada')
-            }
+            const brandDeleted = await clientAxios.delete(`/brand/${id}`)
+            setBrands(brands.filter((cat: any) => cat._id !== id))
+            alert('Categoría eliminada')
+            onBrandCreated()
+
         } catch (error) {
             console.error('Error al eliminar categoría:', error)
         }

@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
-
-const brandForm = () => {
+import styles from './BrandForm.module.css'
+import { clientAxios } from '@/config/clientAxios'
+const brandForm = ({onBrandCreated} : {onBrandCreated: () => void}) => {
     const [brand, setBrand] = useState({ name: '' })
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -10,21 +11,21 @@ const brandForm = () => {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault()
         try {
-            const res = await fetch('/api/brand', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(brand),
-            })
-            if (res.ok) alert('Categoría creada con éxito')
+            const brandAdded = await clientAxios.post('/brand', brand)
+            alert('Marca agregada correctamente')
+            setBrand({ name: '' })
+            onBrandCreated();
         } catch (error) {
             console.error('Error al crear categoría:', error)
         }
     }
 
     return (
-        <form onSubmit={handleSubmit}>
-            <input name="name" placeholder="Nombre de la categoría" onChange={handleChange} />
-            <button type="submit">Crear Categoría</button>
+        <form className={styles.form} onSubmit={handleSubmit}>
+            <div className={styles.inputBox}>
+                <input name="name" placeholder="Nombre de la categoría" onChange={handleChange} />
+            </div>
+            <button className={styles.submitButton} type="submit">Crear Categoría</button>
         </form>
     )
 }

@@ -24,7 +24,7 @@ export async function POST(req: NextRequest) {
 
 export async function GET(req: NextRequest, res: NextResponse) {
     try {
-        const products = await Product.find()
+        const products = await Product.find().populate('category brand');
 
         return NextResponse.json({ products })
     } catch (error) {

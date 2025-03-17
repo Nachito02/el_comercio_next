@@ -25,7 +25,20 @@ const ProductList = ({ products, onDeleteProduct }: { products: any[]; onDeleteP
             <>
               <div className={styles.listCard}>
               <CircleX className={styles.deleteButton} onClick={() => handleDelete(product._id)} />
-              <Card image={product.images[0]} price={product.price} title={product.name} />
+              <Card
+                                key={product._id}
+                                image={product.images[0] || '/assets/default.jpg'}
+                                price={product.price}
+                                title={product.name}
+                                stock={product.stock}
+                                sizes={product.sizes}
+                                images={product.images}
+                                description={product.description}
+                                colors={product.colors}
+                                category={product.category}
+                                brand={product.brand}
+                                isAdmin={true}
+                            />
               </div>
             </>
           </div>
