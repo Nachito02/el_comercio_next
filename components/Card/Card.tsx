@@ -10,7 +10,7 @@ interface CardProps {
   images: string[]
   description: string
   colors: string[]
-  category: ICategory 
+  category: ICategory
   brand: IBrand
   isAdmin?: boolean
 }
@@ -31,8 +31,8 @@ const Card: React.FC<CardProps> = ({ image, title, price, brand, category, color
             <p>Colores: {colors.join(', ')}</p>
             <p>Categoría: {category?.name}</p>
             <p>Marca: {brand?.name}</p>
-          
-            </>
+
+          </>
         )}
       </div>
     </div>

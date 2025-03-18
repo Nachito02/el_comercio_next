@@ -1,4 +1,3 @@
-// app/page.tsx (o app/home/page.tsx si tienes rutas anidadas)
 import Card from '@/components/Card/Card'
 import styles from './Home.module.css'
 import { clientAxios } from '@/config/clientAxios'
@@ -15,7 +14,7 @@ export default async function Home() {
     }
     console.log(products)
     return (
-        
+
         <div className={styles.container}>
             <h2 className={styles.title}>Productos</h2>
             <div className={styles.cardContainer}>

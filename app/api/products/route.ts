@@ -1,9 +1,12 @@
-import { NextRequest, NextResponse } from "next/server";
-import Product from '@/models/Product';
-import dbConnect from '@/lib/dbConnect';
-dbConnect();
+import { NextRequest, NextResponse } from 'next/server';
+import dbConnect from '@/lib/dbConnect'; // Ajusta la ruta según tu estructura
+import Product from '@/models/Product'; // Ajusta la ruta
+import '@/models/Brand'; // 🔹 Solo importa para registrar
+import '@/models/Category'; // 🔹 Solo importa para registrar
+
 export async function POST(req: NextRequest) {
     try {
+        await dbConnect();
         const body = await req.json();
         const { name, description, price, stock, category, brand, images, sizes } = body;
 
@@ -24,11 +27,17 @@ export async function POST(req: NextRequest) {
 
 export async function GET(req: NextRequest, res: NextResponse) {
     try {
-        const products = await Product.find().populate('category brand');
+        await dbConnect();
+     
+        const products = await Product.find().populate('brand category');
 
-        return NextResponse.json({ products })
+        return NextResponse.json({ products });
     } catch (error) {
-        return NextResponse.json({ message: "Error al crear el producto", error }, { status: 500 });
+        console.log(error);
+        return NextResponse.json(
+            { message: 'Error al obtener el producto', error },
+            { status: 500 }
+        );
     }
 }
 
