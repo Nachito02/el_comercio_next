@@ -1,34 +1,35 @@
-import { ICategory, IBrand } from "@/interfaces"
-import { useState } from "react"
-import { clientAxios } from "@/config/clientAxios"
-import styles from "./ProductForm.module.css"
-import { CldUploadWidget } from "next-cloudinary"
+import { ICategory, IBrand } from "@/interfaces";
+import { useState } from "react";
+import { clientAxios } from "@/config/clientAxios";
+import styles from "./ProductForm.module.css";
+import { CldUploadWidget } from "next-cloudinary";
+import Image from "next/image";
 
-const SIZES = ['XS', 'S', 'M', 'L', 'XL', 'XXL'] // Tallas disponibles
+const SIZES = ["XS", "S", "M", "L", "XL", "XXL"]; // Tallas disponibles
 
 const ProductForm = ({
   categories,
   brands,
   onProductCreated,
 }: {
-  categories: ICategory[]
-  brands: IBrand[]
-  onProductCreated: () => void
+  categories: ICategory[];
+  brands: IBrand[];
+  onProductCreated: () => void;
 }) => {
   const [product, setProduct] = useState({
-    name: '',
-    description: '',
+    name: "",
+    description: "",
     price: "",
     stock: "",
-    category: '',
-    brand: '',
+    category: "",
+    brand: "",
     sizes: [] as string[], // Inicializa tallas como array vacío
     images: [] as string[],
-  })
+  });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-    setProduct({ ...product, [e.target.name]: e.target.value })
-  }
+    setProduct({ ...product, [e.target.name]: e.target.value });
+  };
 
   const handleSizeChange = (size: string) => {
     setProduct((prev) => ({
@@ -36,80 +37,64 @@ const ProductForm = ({
       sizes: prev.sizes.includes(size)
         ? prev.sizes.filter((s) => s !== size) // Quitar talla si ya está seleccionada
         : [...prev.sizes, size], // Agregar talla si no está seleccionada
-    }))
-  }
+    }));
+  };
 
   const handleUploadSuccess = (result: any) => {
-    if (result.event === 'success') {
+    if (result.event === "success") {
       setProduct((prev) => ({
         ...prev,
         images: [...prev.images, result.info.secure_url],
-      }))
+      }));
     }
-  }
+  };
+
+  // ✅ Función para eliminar imagen del array
+  const handleRemoveImage = (index: number) => {
+    setProduct((prev) => ({
+      ...prev,
+      images: prev.images.filter((_, i) => i !== index),
+    }));
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
+    e.preventDefault();
 
     try {
-      await clientAxios.post('/products', product)
-      alert('Producto creado con éxito')
+      await clientAxios.post("/products", product);
+      alert("Producto creado con éxito");
 
       // Limpiar formulario
       setProduct({
-        name: '',
-        description: '',
+        name: "",
+        description: "",
         price: "",
         stock: "",
-        category: '',
-        brand: '',
+        category: "",
+        brand: "",
         sizes: [],
         images: [],
-      })
+      });
 
       // Actualizar la lista de productos
-      onProductCreated()
+      onProductCreated();
     } catch (error) {
-      console.error('Error al crear producto:', error)
+      console.error("Error al crear producto:", error);
     }
-  }
+  };
 
   return (
     <form className={styles.form} onSubmit={handleSubmit}>
       <h2 className={styles.title}>Crear Producto</h2>
 
       <div className={styles.inputBox}>
-        <input
-          type="text"
-          name="name"
-          placeholder="Nombre del producto"
-          value={product.name}
-          onChange={handleChange}
-        />
-        <input
-          type="text"
-          name="description"
-          placeholder="Descripción"
-          value={product.description}
-          onChange={handleChange}
-        />
+        <input type="text" name="name" placeholder="Nombre del producto" value={product.name} onChange={handleChange} />
+        <input type="text" name="description" placeholder="Descripción" value={product.description} onChange={handleChange} />
       </div>
 
       <div className={styles.inputBox}>
-        <input
-          type="number"
-          name="price"
-          placeholder="Precio"
-          value={product.price}
-          onChange={handleChange}
-        />
-        <input
-          type="number"
-          name="stock"
-          placeholder="Stock"
-          value={product.stock}
-          onChange={handleChange}
-        />
+        <input type="number" name="price" placeholder="Precio" value={product.price} onChange={handleChange} />
+        <input type="number" name="stock" placeholder="Stock" value={product.stock} onChange={handleChange} />
       </div>
 
       <div className={styles.selectBox}>
@@ -132,23 +117,14 @@ const ProductForm = ({
         </select>
       </div>
 
-
       <div className={styles.sizesBox}>
         <h3>Tallas disponibles:</h3>
         <div className={styles.sizesContainer}>
-
-
           {SIZES.map((size) => (
             <label key={size} className={styles.sizeLabel}>
-              <input
-                type="checkbox"
-                value={size}
-                checked={product.sizes.includes(size)}
-                onChange={() => handleSizeChange(size)}
-              />
+              <input type="checkbox" value={size} checked={product.sizes.includes(size)} onChange={() => handleSizeChange(size)} />
               {size}
             </label>
-
           ))}
         </div>
       </div>
@@ -161,9 +137,15 @@ const ProductForm = ({
         )}
       </CldUploadWidget>
 
+      {/* ✅ Previsualización de imágenes con botón de eliminar */}
       <div className={styles.imagePreview}>
         {product.images.map((url, index) => (
-          <img key={index} src={url} alt={`Imagen ${index + 1}`} />
+          <div key={index} className={styles.imageContainer}>
+            <Image src={url} alt={`Imagen ${index + 1}`} width={1440} height={1440} className={styles.image} />
+            <button type="button" className={styles.deleteButton} onClick={() => handleRemoveImage(index)}>
+              ❌
+            </button>
+          </div>
         ))}
       </div>
 
@@ -171,7 +153,7 @@ const ProductForm = ({
         Crear Producto
       </button>
     </form>
-  )
-}
+  );
+};
 
-export default ProductForm
+export default ProductForm;

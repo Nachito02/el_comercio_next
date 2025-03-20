@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import styles from './CategoryList.module.css'
 import { clientAxios } from '@/config/clientAxios'
 
-const CategoryList = ({ categories }: { categories: ICategory[] }) => {
+const CategoryList = ({ categories, onDeletedCategory }: { categories: ICategory[], onDeletedCategory: () => void }) => {
   const [category, setCategories] = useState([categories])
 
   const handleDelete = async (id: string) => {
@@ -12,6 +12,7 @@ const CategoryList = ({ categories }: { categories: ICategory[] }) => {
       const deletedCategory = await clientAxios.delete(`/categories/${id}`)
       setCategories(category.filter((cat: any) => cat._id !== id))
       alert('Categoría eliminada')
+      onDeletedCategory()
     } catch (error) {
       console.error('Error al eliminar categoría:', error)
     }

@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import styles from './CategoryForm.module.css'
-const CategoryForm = () => {
+const CategoryForm = ({onCategoryCreated} : {onCategoryCreated: () => void}) => {
   const [category, setCategory] = useState({ name: '' })
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -16,6 +16,7 @@ const CategoryForm = () => {
         body: JSON.stringify(category),
       })
       if (res.ok) alert('Categoría creada con éxito')
+        onCategoryCreated();
     } catch (error) {
       console.error('Error al crear categoría:', error)
     }

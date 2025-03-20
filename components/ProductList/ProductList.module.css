@@ -1,12 +1,30 @@
 .list {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    align-items: center;
+
 }
 
-.listCard {
+@media screen and (max-width: 768px) {
+    .list {
+        grid-template-columns: repeat(1, 1fr);
+        padding: 0 20px;
+        justify-content: center;
+        align-items: center;
+    }
+}
+
+
+
+.listCard  {
     position: relative;
-    
+    max-width: fit-content;
+
+}
+
+@media screen and (max-width: 768px) {
+    .listCard {
+        max-width:100%;
+    }
 }
 
 .deleteButton { 
@@ -15,4 +33,5 @@
    right: 10px;
     cursor: pointer;
     color: red;
+    z-index: 9999;
 }

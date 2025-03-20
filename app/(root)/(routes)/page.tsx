@@ -2,6 +2,9 @@ import React from 'react'
 import styles from './Home.module.css'
 import Link from 'next/link'
 import Card from '@/components/Card/Card'
+import Head from 'next/head'
+import { Metadata } from 'next'
+
 const Page = async () => {
   let products = []
 
@@ -17,7 +20,11 @@ const Page = async () => {
     console.error('Error al obtener productos:', error)
   }
   return (
+    <>
+    <Head>
+      <title>Productos</title>
 
+    </Head>
     <div className={styles.container}>
       <h2 className={styles.title}>Productos</h2>
       <div className={styles.cardContainer}>
@@ -43,6 +50,7 @@ const Page = async () => {
         )}
       </div>
     </div>
+    </>
   )
 
 

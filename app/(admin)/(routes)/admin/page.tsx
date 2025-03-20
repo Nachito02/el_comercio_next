@@ -75,8 +75,8 @@ const AdminPage = () => {
         ) : activeTab === 'categories' ? (
           <>
             <h2 className={styles.subtitle}>Administrar Categorías</h2>
-            <CategoryForm />
-            <CategoryList categories={categories} />
+            <CategoryForm onCategoryCreated={fetchCategories} />
+            <CategoryList categories={categories} onDeletedCategory={fetchCategories} />
           </>
         ) : (
           <>

@@ -1,5 +1,6 @@
 import { IBrand, ICategory } from '@/interfaces'
 import styles from './Card.module.css'
+import Image from 'next/image'
 
 interface CardProps {
   image: string
@@ -19,7 +20,7 @@ const Card: React.FC<CardProps> = ({ image, title, price, brand, category, color
 
   return (
     <div className={styles.card}>
-      <img src={image} alt={title} className={styles.cardImage} />
+      <Image src={image} alt={title} className={styles.cardImage} width={1440} height={1440} />
       <div className={styles.cardContent}>
         <h3 className={styles.cardTitle}>{title}</h3>
         <p className={styles.cardPrice}>${price}</p>

@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react'
 import styles from './ProductDetail.module.css'
+import Image from 'next/image'
 
 const ProductDetails = ({ product }: { product: any }) => {
     const [selectedSize, setSelectedSize] = useState<string | null>(null)
@@ -13,14 +14,16 @@ const ProductDetails = ({ product }: { product: any }) => {
         <div className={styles.productPage}>
             {/* Sección de la galería */}
             <div className={styles.imageSection}>
-                <img
+                <Image
+                 width={1440} height={1440}
                     src={mainImage || 'eskere'}
                     alt={product.name}
                     className={styles.mainImage}
                 />
                 <div className={styles.thumbnailContainer}>
                     {product.images?.map((image: string, index: number) => (
-                        <img
+                        <Image
+                        width={1440} height={1440}
                             key={index}
                             src={image || 'esker'}
                             alt={`${product.name} ${index + 1}`}
