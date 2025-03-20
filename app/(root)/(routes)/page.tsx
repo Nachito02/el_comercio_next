@@ -1,4 +1,3 @@
-import { clientAxios } from '@/config/clientAxios'
 import React from 'react'
 import styles from './Home.module.css'
 import Link from 'next/link'

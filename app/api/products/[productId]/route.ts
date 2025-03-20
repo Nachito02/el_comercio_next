@@ -3,19 +3,20 @@ import { NextRequest, NextResponse } from "next/server";
 import dbConnect from '@/lib/dbConnect'; 
 
 
-export async function DELETE(req: NextRequest, {params}) {
+export async function DELETE(req: NextRequest, props) {
+    const params = await props.params;
     await dbConnect();
-   try {
-        const product = await Product.findByIdAndDelete(params.productId);
-        return NextResponse.json({product})
-   } catch (error) {
-       return NextResponse.json({message: "Error al eliminar el producto", error}, {status: 500})
-   }
-
+    try {
+         const product = await Product.findByIdAndDelete(params.productId);
+         return NextResponse.json({product})
+    } catch (error) {
+        return NextResponse.json({message: "Error al eliminar el producto", error}, {status: 500})
+    }
 }
 
 
-export async function GET(req: NextRequest, {params} ){  
+export async function GET(req: NextRequest, props) {
+    const params = await props.params;
     await dbConnect();
 
     try {
@@ -25,5 +26,4 @@ export async function GET(req: NextRequest, {params} ){
        return NextResponse.json({message: "Error al obtener el producto", error}, {status: 500})
 
     }
-    
 }

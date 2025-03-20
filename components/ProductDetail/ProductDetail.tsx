@@ -7,12 +7,14 @@ const ProductDetails = ({ product }: { product: any }) => {
     const [selectedSize, setSelectedSize] = useState<string | null>(null)
     const [mainImage, setMainImage] = useState<string>(product.images?.[0] || '')
 
+        console.log(product.product);
+        
     return (
         <div className={styles.productPage}>
             {/* Sección de la galería */}
             <div className={styles.imageSection}>
                 <img
-                    src={mainImage}
+                    src={mainImage || 'eskere'}
                     alt={product.name}
                     className={styles.mainImage}
                 />
@@ -20,7 +22,7 @@ const ProductDetails = ({ product }: { product: any }) => {
                     {product.images?.map((image: string, index: number) => (
                         <img
                             key={index}
-                            src={image}
+                            src={image || 'esker'}
                             alt={`${product.name} ${index + 1}`}
                             className={`${styles.thumbnail} ${mainImage === image ? styles.activeThumbnail : ''}`}
                             onClick={() => setMainImage(image)}
