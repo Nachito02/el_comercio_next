@@ -7,7 +7,7 @@ const Page = async () => {
   let products = []
 
   try {
-    const res = await fetch(`http://localhost:3000/api/products`, {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/products`, {
       cache: 'no-store'
     })
     if (!res.ok) throw new Error('Error en la API')
