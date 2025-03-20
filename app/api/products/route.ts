@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
-import dbConnect from '@/lib/dbConnect'; // Ajusta la ruta según tu estructura
-import Product from '@/models/Product'; // Ajusta la ruta
-import '@/models/Brand'; // 🔹 Solo importa para registrar
-import '@/models/Category'; // 🔹 Solo importa para registrar
+import dbConnect from '@/lib/dbConnect'; 
+import Product from '@/models/Product'; 
+import '@/models/Brand';
+import '@/models/Category';
 
 export async function POST(req: NextRequest) {
     try {

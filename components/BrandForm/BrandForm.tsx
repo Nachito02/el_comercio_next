@@ -25,7 +25,7 @@ const brandForm = ({onBrandCreated} : {onBrandCreated: () => void}) => {
             <div className={styles.inputBox}>
                 <input name="name" placeholder="Nombre de la categoría" onChange={handleChange} />
             </div>
-            <button className={styles.submitButton} type="submit">Crear Categoría</button>
+            <button className={styles.submitButton} type="submit">Crear Marca</button>
         </form>
     )
 }
