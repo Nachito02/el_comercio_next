@@ -1,9 +1,10 @@
 import Product from "@/models/Product";
 import { NextRequest, NextResponse } from "next/server";
+import dbConnect from '@/lib/dbConnect'; 
 
 
-export async function DELETE(req: NextRequest, {params} : {params: {productId: string}}) {
-    
+export async function DELETE(req: NextRequest, {params}) {
+    await dbConnect();
    try {
         const product = await Product.findByIdAndDelete(params.productId);
         return NextResponse.json({product})
@@ -14,7 +15,9 @@ export async function DELETE(req: NextRequest, {params} : {params: {productId: s
 }
 
 
-export async function GET(req: NextRequest, {params} : {params:{productId: string}}){  
+export async function GET(req: NextRequest, {params} ){  
+    await dbConnect();
+
     try {
         const product = await Product.findById(params.productId);
         return NextResponse.json({product})

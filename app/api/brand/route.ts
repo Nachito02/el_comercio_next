@@ -1,10 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
 import dbConnect from '@/lib/dbConnect';
 import Brand from "@/models/Brand";
-dbConnect();
 
 export async function POST(req: NextRequest) {
     try {
+        
+        await dbConnect();
         const body = await req.json(); // <-- Obtén el cuerpo de la solicitud
         const { name, } = body;
 
@@ -22,7 +23,9 @@ export async function POST(req: NextRequest) {
 }
 
 
-export async function GET(req: NextRequest, res: NextResponse) {
+export async function GET(req: NextRequest) {
+    await dbConnect();
+
     try {
         const brands = await Brand.find()
         return NextResponse.json({ brands })

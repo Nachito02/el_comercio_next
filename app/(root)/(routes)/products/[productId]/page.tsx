@@ -9,7 +9,7 @@ interface ProductPageProps {
   }
 }
 
-const ProductPage = async ({ params }: ProductPageProps) => {
+const ProductPage = async ({ params }) => {
   let product = null
 
   try {

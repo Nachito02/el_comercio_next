@@ -25,7 +25,7 @@ export async function POST(req: NextRequest) {
     }
 }
 
-export async function GET(req: NextRequest, res: NextResponse) {
+export async function GET(req: NextRequest ) {
     try {
         await dbConnect();
      

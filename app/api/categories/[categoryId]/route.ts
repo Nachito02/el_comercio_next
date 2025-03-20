@@ -1,7 +1,7 @@
 import Category from "@/models/Category";
 import { NextRequest, NextResponse } from "next/server";
 
-export async function DELETE(req: NextRequest, {params} : {params: {categoryId: string}}) {
+export async function DELETE(req: NextRequest, {params} ) {
    try {
         const category = await Category.findByIdAndDelete(params.categoryId);
         return NextResponse.json({category})

@@ -1,5 +1,5 @@
 'use client'
-import { clientAxios } from "@/config/clientAxios"
+
 import { useEffect, useState } from "react"
 import styles from "./Admin.module.css"
 import ProductForm from "@/components/ProductForm/ProductForm"
@@ -8,45 +8,31 @@ import CategoryForm from "@/components/CategoryForm/CategoryForm"
 import CategoryList from "@/components/CategoryList/CategoryList"
 import BrandForm from "@/components/BrandForm/BrandForm"
 import BrandList from "@/components/BrandList/BrandList"
+
+const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000/api";
+
 const AdminPage = () => {
   const [activeTab, setActiveTab] = useState('products')
-
   const [brands, setBrands] = useState([])
   const [categories, setCategories] = useState([])
   const [products, setProducts] = useState([])
 
-  const fetchCategories = async () => {
+  const fetchData = async (endpoint, setter) => {
     try {
-      const fetchedCategories = await clientAxios.get('/categories')
-      setCategories(fetchedCategories.data.categories)
+      const res = await fetch(`${API_URL}/${endpoint}`);
+      if (!res.ok) throw new Error(`Error al obtener ${endpoint}`);
+      const data = await res.json();
+      setter(data[endpoint]);
     } catch (error) {
-      console.log(error)
+      console.error(error);
     }
-  }
-
-  const fetchBrands = async () => {
-    try {
-      const fetchedBrands = await clientAxios.get('/brand')
-      setBrands(fetchedBrands.data.brands)
-    } catch (error) {
-      console.log(error)
-    }
-  }
-
-  const fetchProducts = async () => {
-    try {
-      const fetchedProducts = await clientAxios.get('/products')
-      setProducts(fetchedProducts.data.products)
-    } catch (error) {
-      console.log(error)
-    }
-  }
+  };
 
   useEffect(() => {
-    fetchBrands()
-    fetchCategories()
-    fetchProducts()
-  }, [])
+    fetchData("brand", setBrands);
+    fetchData("categories", setCategories);
+    fetchData("products", setProducts);
+  }, []);
 
   return (
     <div className={styles.adminPage}>
@@ -62,15 +48,8 @@ const AdminPage = () => {
         {activeTab === 'products' ? (
           <>
             <h2 className={styles.subtitle}>Administrar Productos</h2>
-            <ProductForm 
-              brands={brands} 
-              categories={categories} 
-              onProductCreated={fetchProducts} // 👈 Actualiza la lista
-            />
-            <ProductList 
-              products={products} 
-              onDeleteProduct={fetchProducts} // 👈 Actualiza al eliminar
-            />
+            <ProductForm brands={brands} categories={categories} onProductCreated={() => fetchData("products", setProducts)} />
+            <ProductList products={products} onDeleteProduct={() => fetchData("products", setProducts)} />
           </>
         ) : activeTab === 'categories' ? (
           <>
@@ -81,13 +60,13 @@ const AdminPage = () => {
         ) : (
           <>
             <h2 className={styles.subtitle}>Administrar Marcas</h2>
-            <BrandForm onBrandCreated={fetchBrands} />
-            <BrandList brand={brands} onBrandCreated={fetchBrands} />
+            <BrandForm onBrandCreated={() => fetchData("brand", setBrands)} />
+            <BrandList brand={brands} onBrandCreated={() => fetchData("brand", setBrands)} />
           </>
         )}
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default AdminPage
+export default AdminPage;
