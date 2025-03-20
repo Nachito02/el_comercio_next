@@ -3,7 +3,13 @@ import React from 'react'
 import ProductDetail from '@/components/ProductDetail/ProductDetail'
 import styles from './ProductPage.module.css'
 
-const ProductPage = async ({ params }: { params: { productId: string } }) => {
+interface ProductPageProps {
+  params: {
+    productId: string
+  }
+}
+
+const ProductPage:React.FC<ProductPageProps> = async ({ params }: { params: { productId: string } }) => {
   let product = null
 
   try {
