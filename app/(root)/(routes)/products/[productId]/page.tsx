@@ -1,24 +1,15 @@
-import { clientAxios } from '@/config/clientAxios'
 import React from 'react'
 import ProductDetail from '@/components/ProductDetail/ProductDetail'
 import styles from './ProductPage.module.css'
 
-interface ProductPageProps {
-  params: {
-    productId: string
-  }
-}
-
 const ProductPage = async ({ params }) => {
   let product = null
-
   try {
-    const res = await clientAxios.get(`/products/${params.productId}`)
-    product = res.data.product
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/products/${params.productId}`)
+    product = await res.json()
   } catch (error) {
     console.error('Error al obtener el producto:', error)
   }
-
   if (!product) {
     return <div className={styles.notFound}>Producto no encontrado</div>
   }
