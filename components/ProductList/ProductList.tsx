@@ -3,8 +3,10 @@ import React, { useEffect, useState } from 'react'
 import styles from './ProductList.module.css'
 import Card from '../Card/Card'
 import { CircleX } from 'lucide-react'
+import { useRouter } from 'next/navigation'
 const ProductList = ({ products, onDeleteProduct }: { products: any[]; onDeleteProduct: () => void }) => {
 
+  const router = useRouter();
   const handleDelete = async (id: string) => {
     try {
       await clientAxios.delete(`/products/${id}`)
@@ -21,7 +23,7 @@ const ProductList = ({ products, onDeleteProduct }: { products: any[]; onDeleteP
       <ul className={styles.list}>
         {products?.map((product: any) => {
           console.log(product)
-          return <div key={product._id}>
+          return <div onClick={() => router.push(`/edit/${product._id}`)} key={product._id}>
             <>
               <div className={styles.listCard}>
                 <CircleX className={styles.deleteButton} onClick={() => handleDelete(product._id)} />

@@ -3,9 +3,17 @@ import ProductDetail from '@/components/ProductDetail/ProductDetail'
 import styles from './ProductPage.module.css'
 import { Metadata } from 'next';
 
-const ProductPage = async ({ params }) => {
+interface ProductPageProps {
+  params: {
+    productId: string;
+  };
+}
+
+
+
+const ProductPage = async ({ params }: ProductPageProps) => {
   let product = null
-  const { productId } = await params
+  const { productId } =  params
 
   try {
     const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/products/${productId}`)
@@ -18,7 +26,6 @@ const ProductPage = async ({ params }) => {
   if (!product) {
     return <div className={styles.notFound}>Producto no encontrado</div>
   }
-
 
 
   return (

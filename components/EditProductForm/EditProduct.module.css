@@ -1,0 +1,154 @@
+.form {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background: #fff;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+  .title {
+    font-size: 1.8rem;
+    color: #333;
+    text-align: center;
+  }
+  
+  .inputBox {
+    display: flex;
+    gap: 20px;
+  }
+  
+  .inputBox input {
+    flex: 1;
+    padding: 12px;
+    border: 2px solid #ccc;
+    border-radius: 8px;
+    font-size: 1rem;
+    outline: none;
+    transition: border-color 0.3s;
+  }
+  
+  .inputBox input:focus {
+    border-color: #007bff;
+  }
+  
+  .selectBox {
+    display: flex;
+    gap: 20px;
+  }
+  
+  .selectBox select {
+    flex: 1;
+    padding: 12px;
+    border: 2px solid #ccc;
+    border-radius: 8px;
+    font-size: 1rem;
+    outline: none;
+  }
+  
+  .uploadButton {
+    padding: 12px 20px;
+    background: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background 0.3s;
+  }
+  
+  .uploadButton:hover {
+    background: #0056b3;
+  }
+  
+  .imagePreview {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  
+  .imagePreview img {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 8px;
+    border: 2px solid #eee;
+  }
+  
+  .submitButton {
+    padding: 12px 20px;
+    background: #28a745;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background 0.3s;
+  }
+  
+  .submitButton:hover {
+    background: #218838;
+  }
+  
+
+  .sizesBox {
+    margin: 20px 0;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background: #f9f9f9;
+  }
+
+  .sizesContainer {
+    margin-top: 20px;
+    display: flex;
+    gap: 20px;
+    justify-content: space-evenly;
+  }
+  
+  .sizeLabel {
+    display: inline-flex;
+    align-items: center;
+    margin-right: 10px;
+    font-size: 1rem;
+  }
+  
+  .sizeLabel input {
+    margin-right: 5px;
+    transform: scale(1.2);
+  }
+
+  .imagePreview {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 10px;
+  }
+  
+  .imageContainer {
+    position: relative;
+    display: inline-block;
+  }
+  
+  .image {
+    border-radius: 8px;
+    max-width: 150px;
+    height: auto;
+  }
+  
+  .deleteButton {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background: red;
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+    padding: 5px;
+    border-radius: 50%;
+  }
+  
